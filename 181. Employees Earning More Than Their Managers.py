@@ -41,3 +41,11 @@ def find_employees(employee: pd.DataFrame) -> pd.DataFrame:
     manager = employee[employee['id'].isin(employee['managerId'])]
     nd = employee.merge(manager, left_on = 'managerId', right_on = 'id')
     return nd[nd['salary_x'] > nd['salary_y']][['name_x']].rename(columns={"name_x":"Employee"})
+
+# SQL Solution
+# Write your MySQL query statement below
+select name as Employee
+from Employee
+left join (select id, salary from Employee) as Employee2
+on Employee.managerId = Employee2.id
+where Employee.salary>Employee2.salary
