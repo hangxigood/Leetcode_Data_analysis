@@ -35,6 +35,15 @@
 # +---------+
 # Explanation: a@b.com is repeated two times.
 
+# SQL Solution
+select email as Email
+from(
+    select email, count(email) as ct
+    from Person
+    group by email
+) as subquery
+where subquery.ct > 1
+
 # Pandas Solution
 import pandas as pd
 
