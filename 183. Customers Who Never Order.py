@@ -59,14 +59,12 @@
 # +-----------+
 
 # SQL Solution
-select name as Customers
-from(
-    select name, customerId
-    from Customers
-    left join Orders
-    on Customers.id = Orders.customerId
-) as subquery
-where customerId is null
+select name Customers
+from Customers
+where id not in (
+    select customerId
+    from Orders
+)
 
 # Pandas Solution
 import pandas as pd
