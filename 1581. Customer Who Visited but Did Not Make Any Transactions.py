@@ -70,7 +70,7 @@
 # Customer with id = 96 visited the mall once and did not make any transactions.
 # As we can see, users with IDs 30 and 96 visited the mall one time without making any transactions. Also, user 54 visited the mall twice and did not make any transactions.
 
-# Write your MySQL query statement below
+# SQL Solution
 select customer_id, count(Visits.visit_id) as count_no_trans
 from Visits
 left join Transactions
@@ -78,3 +78,13 @@ on Visits.visit_id = Transactions.visit_id
 where Transactions.visit_id is Null
 group by customer_id
 order by count_no_trans DESC
+
+# Pandas Solution
+import pandas as pd
+
+def find_customers(visits: pd.DataFrame, transactions: pd.DataFrame) -> pd.DataFrame:
+    return visits[[x not in transactions.visit_id.values for x in visits.visit_id]]\
+    .groupby('customer_id')\
+    [['visit_id']].count()\
+    .rename(columns={'visit_id':'count_no_trans'})\
+    .reset_index()
